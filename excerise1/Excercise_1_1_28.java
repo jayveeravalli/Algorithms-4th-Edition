@@ -17,6 +17,7 @@ public class Excercise_1_1_28 {
 	}
 	
 	public static int[] removeDuplicates(int[] array) {
+		Arrays.sort(array); // To sort the array
 		int temp[] = new int[array.length];
 		int count = 0;
 		temp[count] = array[0];
