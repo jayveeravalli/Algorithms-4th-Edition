@@ -25,7 +25,7 @@ class Prime {
 
 }
 
-public class Excercise_1_1_30 {
+public class Exercise_1_1_30 {
 
 	public static void main(String args[]) {
 		printNbyNMatrix(6);

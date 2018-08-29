@@ -6,7 +6,7 @@ package excerise1;
  * 
  * */
 
-public class Excercise_1_1_20 {
+public class Exercise_1_1_20 {
 	
 	public static void main(String args[]) {
 		System.out.println(factLn(10));

@@ -3,11 +3,29 @@ package section1;
 public class Test_FixedStack {
 
 	public static void main(String[] args) {
-		FixedCapacityStackOfStrings stack1 = new FixedCapacityStackOfStrings(3);
+		LinkedStack<String> stack1 = new LinkedStack<>();
 		System.out.println(stack1.isEmpty());
-		stack1.push("a");
-		stack1.push("b");
-		stack1.push("c");
+		stack1.push("it");
+		stack1.push("was");
+		stack1.push("-");
+		stack1.push("the");
+		stack1.push("best");
+		stack1.push("-");
+		stack1.push("of");
+		stack1.push("times");
+		stack1.push("-");
+		stack1.push("-");
+		stack1.push("-");
+		stack1.push("it");
+		stack1.push("was");
+		stack1.push("-");
+		stack1.push("the");
+		stack1.push("-");
+		stack1.push("-");
+		
+		for(String s : stack1) {
+			System.out.println(s);
+		}
 		System.out.println(stack1.size());
 		System.out.println(stack1.isEmpty());
 		System.out.println(stack1.pop());

@@ -9,7 +9,7 @@ package excerise1;
 
 import java.util.Arrays;
 
-public class Excercise_1_1_28 {
+public class Exercise_1_1_28 {
 	
 	public static void main(String args[]) {
 		int[] a = {1,2,2,3,3,3,3,4,4,4,4,5,5,5,5,5,5,5,5,5,5,6,6,6,6,66,7,8,0,90,9,100};

@@ -6,7 +6,7 @@ package excerise1;
  * 
  * */
 
-public class Excercise_1_1_9 {
+public class Exercise_1_1_9 {
 
 	public static void main(String[] args) {
 		System.out.println("Ans:"+convertToBinary(10));

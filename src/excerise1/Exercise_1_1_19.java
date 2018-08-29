@@ -6,7 +6,7 @@ package excerise1;
  * 
  * */
 
-public class Excercise_1_1_19 {
+public class Exercise_1_1_19 {
 	
 	public static void main(String args[]) {
 		System.out.println(fibonacci(2));
