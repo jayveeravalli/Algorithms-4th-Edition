@@ -55,3 +55,8 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+
+.idea/
+Algorithms-4th-Edition.iml
+out/
+
