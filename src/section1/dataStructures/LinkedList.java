@@ -90,6 +90,17 @@ public class LinkedList<T> implements Iterable<T>{
         }
     }
 
+    public boolean find(T key){
+        Node temp = first;
+        while (temp.next != null){
+            if(temp.value.equals(key)){
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
+    }
+
     @Override
     public Iterator iterator() {
         return new ListIterator();
