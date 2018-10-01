@@ -1,50 +1,40 @@
-package section1;
+package section1.dataStructures;
 
 import java.util.Iterator;
 
+public class LinkedStack<T> implements Iterable<T> {
 
-public class LinkedQueue<T> implements Iterable<T>{
-	
 	private class Node {
 		T item;
 		Node next;
 	}
-	
+
 	private Node first;
-	private Node last;
 	private int n = 0;
-	
+
 	public boolean isEmpty() {
 		return n == 0;
 	}
-	
+
 	public int size() {
 		return n;
 	}
-	
-	public void enqueue(T t) {
-		if(!isEmpty()) {
-			Node temp = new Node();
-			temp.item = t;
-			temp.next = null;
-			last.next = temp;
-			last = temp;
-		} else {
-			last = new Node();
-			last.item = t;
-			last.next = null;
-			first = last;
-		}
+
+	public void push(T t) {
+		Node temp = new Node();
+		temp.item = t;
+		temp.next = first;
+		first = temp;
 		n++;
 	}
 	
-	public T dequeue() {
+	public T pop() {
 		T item = first.item;
 		first = first.next;
 		n--;
 		return item;
 	}
-	
+
 	@Override
 	public Iterator<T> iterator() {
 		return new ReverseIterator();

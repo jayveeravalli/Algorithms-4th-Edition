@@ -1,5 +1,7 @@
 package section1;
 
+import section1.dataStructures.LinkedStack;
+
 public class TestLinkedStack {
 	
 	public static void main(String args[]) {

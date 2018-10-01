@@ -1,6 +1,6 @@
 package excerise1;
 
-import section1.ResizinArrayStack;
+import section1.dataStructures.ResizinArrayStack;
 
 public class Exercise_1_3_12 {
 

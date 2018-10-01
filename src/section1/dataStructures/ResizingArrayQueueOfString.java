@@ -1,4 +1,4 @@
-package section1;
+package section1.dataStructures;
 
 import java.util.Iterator;
 

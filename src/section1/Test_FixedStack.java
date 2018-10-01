@@ -1,5 +1,8 @@
 package section1;
 
+import section1.dataStructures.FixedCapacityStack;
+import section1.dataStructures.LinkedStack;
+
 public class Test_FixedStack {
 
 	public static void main(String[] args) {

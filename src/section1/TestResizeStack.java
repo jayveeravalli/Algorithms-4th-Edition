@@ -1,5 +1,7 @@
 package section1;
 
+import section1.dataStructures.ResizinArrayStack;
+
 import java.util.Iterator;
 
 public class TestResizeStack {

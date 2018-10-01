@@ -1,5 +1,7 @@
 package section1;
 
+import section1.dataStructures.LinkedQueue;
+
 public class TestLinkedQueue {
 	
 	public static void main(String args[]) {

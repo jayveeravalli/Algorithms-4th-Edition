@@ -1,6 +1,6 @@
 package excerise1;
 
-import section1.ResizingArrayQueueOfString;
+import section1.dataStructures.ResizingArrayQueueOfString;
 
 public class Exercise_1_3_14 {
 
