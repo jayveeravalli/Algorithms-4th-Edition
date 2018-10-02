@@ -53,6 +53,17 @@ public class LinkedList<T> implements Iterable<T>{
         n--;
     }
 
+    public boolean find(T key){
+        Node temp = first;
+        while (temp.next != null){
+            if(temp.value.equals(key)){
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
+    }
+
     public void remove(int pos){
         if(n <= pos) {
             throw new ArrayIndexOutOfBoundsException();
@@ -90,15 +101,23 @@ public class LinkedList<T> implements Iterable<T>{
         }
     }
 
-    public boolean find(T key){
-        Node temp = first;
-        while (temp.next != null){
-            if(temp.value.equals(key)){
-                return true;
-            }
-            temp = temp.next;
+
+    public void reverse() {
+        if(isEmpty()) return;
+        Node prevNode = first;
+        Node nextNode = prevNode.next;
+
+        first.next = null;
+        last = first;
+
+        while (nextNode!=null){
+            Node temp = nextNode.next;
+            nextNode.next = prevNode;
+            prevNode = nextNode;
+            nextNode = temp;
         }
-        return false;
+
+        first = prevNode;
     }
 
     @Override
