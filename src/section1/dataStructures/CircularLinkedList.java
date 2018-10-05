@@ -34,6 +34,76 @@ public class CircularLinkedList<T> implements Iterable<T>{
         n++;
     }
 
+    public T remove(int pos){
+        if(n<=pos) throw new ArrayIndexOutOfBoundsException();
+
+        if(n-1 == pos){
+            return removeLast();
+        }
+
+        if(n==0){
+            return removeFirst();
+        }
+
+        Node current = last.next;
+        Node prev = last;
+
+        for (int i = 0; i<n; i++){
+            if(i==pos){
+                prev.next = current.next;
+                n--;
+                return current.value;
+            } else {
+                prev = current;
+                current = current.next;
+            }
+        }
+
+        return null;
+
+    }
+
+    public T removeFirst(){
+        Node first = last.next;
+        Node next = first.next;
+
+        if(next == last){
+            last.next = last;
+            n--;
+            return first.value;
+        } else {
+            last.next = next;
+            n--;
+            return first.value;
+        }
+    }
+
+    public T removeLast(){
+        if(isEmpty()) throw new ArrayIndexOutOfBoundsException();
+
+        if(n == 1){
+            T value = last.value;
+            last = null;
+            n--;
+            return value;
+        }
+
+        T value = last.value;
+        Node first = last.next;
+        Node temp = last.next;
+
+        for(int i = 0; i<n; i++){
+            if(i == n-2){
+                last = temp;
+                last.next = first;
+             } else {
+                temp = temp.next;
+            }
+        }
+        n--;
+        return value;
+    }
+
 
     @Override
     public Iterator<T> iterator() {
@@ -42,7 +112,7 @@ public class CircularLinkedList<T> implements Iterable<T>{
 
     private class ListIterator implements Iterator<T>{
         int i = 0;
-        Node curr = last.next;
+        Node curr = last!=null ? last.next : null;
         @Override
         public boolean hasNext() {
             return i < size();

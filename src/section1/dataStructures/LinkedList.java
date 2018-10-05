@@ -64,6 +64,19 @@ public class LinkedList<T> implements Iterable<T>{
         return false;
     }
 
+    public T get(int pos){
+        Node temp = first;
+        int count = 0;
+        while (count < n){
+            if(pos == count){
+                return temp.value;
+            }
+            temp = temp.next;
+            count++;
+        }
+        throw new ArrayIndexOutOfBoundsException();
+    }
+
     public void remove(int pos){
         if(n <= pos) {
             throw new ArrayIndexOutOfBoundsException();
@@ -118,6 +131,14 @@ public class LinkedList<T> implements Iterable<T>{
         }
 
         first = prevNode;
+    }
+
+    public T getFirst(){
+        if(!isEmpty()){
+            return first.value;
+        } else {
+            throw new ArrayIndexOutOfBoundsException("List Is Empty");
+        }
     }
 
     @Override
