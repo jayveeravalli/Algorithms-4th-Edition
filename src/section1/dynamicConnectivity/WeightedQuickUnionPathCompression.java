@@ -4,53 +4,62 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class WieghtedQuickUnion {
+public class WeightedQuickUnionPathCompression {
 
-    private int[] a;
-    private int[] size;
     private int count;
+    private int[] id;
+    private int[] size;
 
-    public WieghtedQuickUnion(int n) {
+    public WeightedQuickUnionPathCompression(int n){
         this.count = n;
-        a = new int[n];
-        size = new int[n];
-
-        for (int i = 0; i < n; i++)
-            a[i] = i;
+        this.id = new int[n];
+        this.size = new int[n];
 
         for (int i = 0; i < n; i++) {
+            id[i] = i;
             size[i] = 1;
         }
     }
 
-    public int count(){return count;}
-
-    public boolean connected(int p, int q){
-        return find(p) == find(q);
+    public int getCount(){
+        return count;
     }
 
     public int find(int n){
-        while (n!=a[n])
-            n = a[n];
+        int root = n;
+        while(root!=id[root]) root = id[root];
+        int temp;
+        while(n!=root) {
+            temp = id[n];
+            id[n] = root;
+            n = temp;
+        }
+        return root;
+    }
 
-        return n;
+    public boolean isConnected(int p, int q){
+        return find(p) == find(q);
     }
 
     public void union(int p, int q){
-        int pId = find(p);
-        int qId = find(q);
 
-        if (pId == qId) return;
+        int pRoot = find(p);
+        int qRoot = find(q);
 
-        if (size[pId] < size[qId]){
-            a[pId] = qId;
-            size[qId] = size[qId] + size[pId];
+        if (pRoot == qRoot) return;
+
+        int pTreeSize = size[pRoot];
+        int qTreeSize = size[qRoot];
+
+        if (qTreeSize > pTreeSize) {
+            id[pRoot] = qRoot;
+            size[qRoot] += size[pRoot];
         } else {
-            a[qId] = pId;
-            size[pId] = size[pId] + size[qId];
+            id[qRoot] = pRoot;
+            size[pRoot] += size[qRoot];
         }
 
-        count --;
+        count--;
     }
 
     public static void main(String[] args) {
@@ -62,21 +71,15 @@ public class WieghtedQuickUnion {
             br = new BufferedReader(fr);
             String sCurrentLine;
             int n = Integer.valueOf(br.readLine());
-            WieghtedQuickUnion quickUnion = new WieghtedQuickUnion(n);
+            WeightedQuickUnionPathCompression quickUnion = new WeightedQuickUnionPathCompression(n);
             long start = System.currentTimeMillis();
             while ((sCurrentLine = br.readLine()) != null) {
                 int p = Integer.valueOf(sCurrentLine.split(" ")[0]);
                 int q = Integer.valueOf(sCurrentLine.split(" ")[1]);
                 System.out.println("P:" + p + " Q:" + q);
-                boolean check = quickUnion.connected(p, q);
-                System.out.println("Connected : " + check);
-                if (!check) {
-                    quickUnion.union(p, q);
-                    check = quickUnion.connected(p, q);
-                    System.out.println("Connected : " + check);
-                }
+                quickUnion.union(p, q);
             }
-            System.out.println("Components : " + quickUnion.count());
+            System.out.println("Components : " + quickUnion.getCount());
             long end = System.currentTimeMillis();
             System.out.println("Time : " + (end - start) / 1000L);
         } catch (IOException e) {
@@ -93,4 +96,6 @@ public class WieghtedQuickUnion {
 
         }
     }
+
+
 }
