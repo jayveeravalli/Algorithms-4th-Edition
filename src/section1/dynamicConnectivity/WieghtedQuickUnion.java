@@ -1,51 +1,56 @@
-package section1.unionFind;
+package section1.dynamicConnectivity;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
-public class QuickUnion {
+public class WieghtedQuickUnion {
 
-    private int count;
     private int[] a;
+    private int[] size;
+    private int count;
 
-    public QuickUnion(int n) {
+    public WieghtedQuickUnion(int n) {
         this.count = n;
-        this.a = new int[n];
+        a = new int[n];
+        size = new int[n];
 
-        for (int i = 0; i < n ; i++){
+        for (int i = 0; i < n; i++)
             a[i] = i;
+
+        for (int i = 0; i < n; i++) {
+            size[i] = 1;
         }
     }
 
-    public int count(){
-        return count;
+    public int count(){return count;}
+
+    public boolean connected(int p, int q){
+        return find(p) == find(q);
     }
 
     public int find(int n){
-        while (n != a[n]) n = a[n];
+        while (n!=a[n])
+            n = a[n];
+
         return n;
     }
 
     public void union(int p, int q){
-        if (connected(p, q)) return;
-
-        int pId = find(p);
-        int qId = find(q);
-        a[pId] = qId;
-        count--;
-        System.out.println(Arrays.toString(a));
-    }
-
-    public boolean connected(int p, int q){
         int pId = find(p);
         int qId = find(q);
 
-        if (pId == qId)
-            return true;
-        else
-            return false;
+        if (pId == qId) return;
+
+        if (size[pId] < size[qId]){
+            a[pId] = qId;
+            size[qId] = size[qId] + size[pId];
+        } else {
+            a[qId] = pId;
+            size[pId] = size[pId] + size[qId];
+        }
+
+        count --;
     }
 
     public static void main(String[] args) {
@@ -53,11 +58,11 @@ public class QuickUnion {
         FileReader fr = null;
 
         try {
-            fr = new FileReader("/Users/munna/Downloads/algs4-data/tinyUF.txt");
+            fr = new FileReader("/Users/munna/Downloads/algs4-data/largeUF.txt");
             br = new BufferedReader(fr);
             String sCurrentLine;
             int n = Integer.valueOf(br.readLine());
-            QuickUnion quickUnion = new QuickUnion(n);
+            WieghtedQuickUnion quickUnion = new WieghtedQuickUnion(n);
             long start = System.currentTimeMillis();
             while ((sCurrentLine = br.readLine()) != null) {
                 int p = Integer.valueOf(sCurrentLine.split(" ")[0]);
@@ -73,7 +78,7 @@ public class QuickUnion {
             }
             System.out.println("Components : " + quickUnion.count());
             long end = System.currentTimeMillis();
-            System.out.println("Time : " + (end-start)/1000L);
+            System.out.println("Time : " + (end - start) / 1000L);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

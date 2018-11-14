@@ -1,33 +1,23 @@
-package section1.unionFind;
+package section1.dynamicConnectivity;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class QuickFind {
+public class WeightedQuickFind {
 
-    /***
-     *
-     * Two sites are connected if they both have the same id
-     *
-     * When we connect two sites we make sure the id of the first number is same as
-     * the id of second number.
-     *
-     * In this implementation find is faster than union as in union we need to
-     * check all the elements for id of the arg1 and change it to the id of arg2
-     *
-     * arg1 and arg2 are p and q.
-     */
-
-    private int count;
     private int[] a;
+    private int[] size;
+    private int count;
 
-    public QuickFind(int n) {
-        this.count = n;
+    public WeightedQuickFind(int n) {
         this.a = new int[n];
+        this.size = new int[n];
+        this.count = n;
 
         for (int i = 0; i < n; i++) {
             a[i] = i;
+            size[i] = 1;
         }
     }
 
@@ -39,20 +29,33 @@ public class QuickFind {
         return a[n];
     }
 
-    public boolean connected(int p, int q) {
+    public boolean isConnected(int p, int q) {
         return find(p) == find(q);
     }
 
     public void union(int p, int q) {
-        int pId = find(p);
-        int qId = find(q);
+        if (isConnected(p, q)) return;
 
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] == pId) {
-                a[i] = qId;
+        int pRoot = find(p);
+        int qRoot = find(q);
+        int pRootSize = size[pRoot];
+        int qRootSize = size[qRoot];
+
+        if (pRootSize > qRootSize) {
+            for (int i = 0; i < a.length; i++) {
+                if (a[i] == qRoot) {
+                    a[i] = pRoot;
+                }
             }
+            size[pRoot] += size[qRoot];
+        } else {
+            for (int i = 0; i < a.length; i++) {
+                if (a[i] == pRoot) {
+                    a[i] = qRoot;
+                }
+            }
+            size[qRoot] += size[pRoot];
         }
-
         count--;
     }
 
@@ -61,27 +64,27 @@ public class QuickFind {
         FileReader fr = null;
 
         try {
-            fr = new FileReader("/Users/munna/Downloads/algs4-data/largeUF.txt");
+            fr = new FileReader("/Users/munna/Downloads/algs4-data/tinyUF.txt");
             br = new BufferedReader(fr);
             String sCurrentLine;
             int n = Integer.valueOf(br.readLine());
-            QuickFind quickFind = new QuickFind(n);
+            WeightedQuickFind weightedQuickFind = new WeightedQuickFind(n);
             long start = System.currentTimeMillis();
             while ((sCurrentLine = br.readLine()) != null) {
                 int p = Integer.valueOf(sCurrentLine.split(" ")[0]);
                 int q = Integer.valueOf(sCurrentLine.split(" ")[1]);
                 System.out.println("P:" + p + " Q:" + q);
-                boolean check = quickFind.connected(p, q);
+                boolean check = weightedQuickFind.isConnected(p,q);
                 System.out.println("Connected : " + check);
                 if (!check) {
-                    quickFind.union(p, q);
-                    check = quickFind.connected(p, q);
+                    weightedQuickFind.union(p, q);
+                    check = weightedQuickFind.isConnected(p, q);
                     System.out.println("Connected : " + check);
                 }
             }
-            System.out.println("Components : " + quickFind.count());
+            System.out.println("Components : " + weightedQuickFind.count());
             long end = System.currentTimeMillis();
-            System.out.println("Time : " + (end-start)/1000L);
+            System.out.println("Time : " + (end - start) / 1000L);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

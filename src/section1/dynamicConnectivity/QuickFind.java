@@ -1,57 +1,59 @@
-package section1.unionFind;
+package section1.dynamicConnectivity;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
-public class WieghtedQuickUnion {
+public class QuickFind {
 
-    private int[] a;
-    private int[] size;
+    /***
+     *
+     * Two sites are connected if they both have the same id
+     *
+     * When we connect two sites we make sure the id of the first number is same as
+     * the id of second number.
+     *
+     * In this implementation find is faster than union as in union we need to
+     * check all the elements for id of the arg1 and change it to the id of arg2
+     *
+     * arg1 and arg2 are p and q.
+     */
+
     private int count;
+    private int[] a;
 
-    public WieghtedQuickUnion(int n) {
+    public QuickFind(int n) {
         this.count = n;
-        a = new int[n];
-        size = new int[n];
-
-        for (int i = 0; i < n; i++)
-            a[i] = i;
+        this.a = new int[n];
 
         for (int i = 0; i < n; i++) {
-            size[i] = 1;
+            a[i] = i;
         }
     }
 
-    public int count(){return count;}
+    public int count() {
+        return count;
+    }
 
-    public boolean connected(int p, int q){
+    public int find(int n) {
+        return a[n];
+    }
+
+    public boolean connected(int p, int q) {
         return find(p) == find(q);
     }
 
-    public int find(int n){
-        while (n!=a[n])
-            n = a[n];
-
-        return n;
-    }
-
-    public void union(int p, int q){
+    public void union(int p, int q) {
         int pId = find(p);
         int qId = find(q);
 
-        if (pId == qId) return;
-
-        if (size[pId] < size[qId]){
-            a[pId] = qId;
-            size[qId] = size[qId] + size[pId];
-        } else {
-            a[qId] = pId;
-            size[pId] = size[pId] + size[qId];
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] == pId) {
+                a[i] = qId;
+            }
         }
 
-        count --;
+        count--;
     }
 
     public static void main(String[] args) {
@@ -63,23 +65,23 @@ public class WieghtedQuickUnion {
             br = new BufferedReader(fr);
             String sCurrentLine;
             int n = Integer.valueOf(br.readLine());
-            WieghtedQuickUnion quickUnion = new WieghtedQuickUnion(n);
+            QuickFind quickFind = new QuickFind(n);
             long start = System.currentTimeMillis();
             while ((sCurrentLine = br.readLine()) != null) {
                 int p = Integer.valueOf(sCurrentLine.split(" ")[0]);
                 int q = Integer.valueOf(sCurrentLine.split(" ")[1]);
                 System.out.println("P:" + p + " Q:" + q);
-                boolean check = quickUnion.connected(p, q);
+                boolean check = quickFind.connected(p, q);
                 System.out.println("Connected : " + check);
                 if (!check) {
-                    quickUnion.union(p, q);
-                    check = quickUnion.connected(p, q);
+                    quickFind.union(p, q);
+                    check = quickFind.connected(p, q);
                     System.out.println("Connected : " + check);
                 }
             }
-            System.out.println("Components : " + quickUnion.count());
+            System.out.println("Components : " + quickFind.count());
             long end = System.currentTimeMillis();
-            System.out.println("Time : " + (end - start) / 1000L);
+            System.out.println("Time : " + (end-start)/1000L);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
